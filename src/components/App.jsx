@@ -20,9 +20,9 @@ export const App = () => {
   const [page, setPage] = useState(1);
   const [photos, setPhotos] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [per_page, setPer_page] = useState(12);
+  // const [per_page, setPer_page] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalPhoto, setModalPhoto] = useState('');
 
@@ -33,7 +33,7 @@ export const App = () => {
 
     setIsLoading(true);
     fetch(
-      `${BASE_URL}?q=${query}&page=${page}&key=${MY_API_KEY}&${searchParams}&per_page=${per_page}`
+      `${BASE_URL}?q=${query}&page=${page}&key=${MY_API_KEY}&${searchParams}&per_page=12`
     )
       .then(response => response.json())
       .then(photos => {
@@ -41,13 +41,13 @@ export const App = () => {
           toast.error('There are no photos');
         }
         setPhotos(prevPhotos => [...prevPhotos, ...photos.hits]);
-        setIsVisible(page < Math.ceil(photos.totalHits / per_page));
+        setIsVisible(page < Math.ceil(photos.totalHits / 12));
       })
       .catch(error => error)
       .finally(() => {
         setIsLoading(false);
       });
-  }, [query, page, per_page]);
+  }, [query, page]);
 
   const handleSearchSubmit = queryForm => {
     if (query === queryForm) {
