@@ -4,18 +4,18 @@ import styles from './styles.module.css';
 
 const Modal = ({ onModalClose, modalPhoto, tags }) => {
   useEffect(() => {
+    const handleEscapeCloseModal = event => {
+      if (event.code === 'Escape') {
+        onModalClose();
+      }
+    };
+
     window.addEventListener('keydown', handleEscapeCloseModal);
 
     return () => {
       window.removeEventListener('keydown', handleEscapeCloseModal);
     };
-  }, []);
-
-  const handleEscapeCloseModal = event => {
-    if (event.code === 'Escape') {
-      onModalClose();
-    }
-  };
+  }, [onModalClose]);
 
   const handleBackDropClick = event => {
     if (event.target === event.currentTarget) {
