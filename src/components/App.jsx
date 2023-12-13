@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import imageAPI from './service/image-api';
 
 import Button from './Button';
 import ImageGallery from './ImageGallery';
@@ -8,12 +9,12 @@ import Loader from './Loader';
 import Modal from './Modal';
 import SearchBar from './SearchBar';
 
-const BASE_URL = 'https://pixabay.com/api/';
-const MY_API_KEY = '27785613-3c730127b1356d079421a0eb8';
-const searchParams = new URLSearchParams({
-  image_type: 'photo',
-  orientation: 'horizontal',
-});
+// const BASE_URL = 'https://pixabay.com/api/';
+// const MY_API_KEY = '27785613-3c730127b1356d079421a0eb8';
+// const searchParams = new URLSearchParams({
+//   image_type: 'photo',
+//   orientation: 'horizontal',
+// });
 
 export const App = () => {
   const [query, setQuery] = useState('');
@@ -32,10 +33,12 @@ export const App = () => {
     }
 
     setIsLoading(true);
-    fetch(
-      `${BASE_URL}?q=${query}&page=${page}&key=${MY_API_KEY}&${searchParams}&per_page=12`
-    )
-      .then(response => response.json())
+    imageAPI
+      .fetchImage({ query, page })
+      // fetch(
+      //   `${BASE_URL}?q=${query}&page=${page}&key=${MY_API_KEY}&${searchParams}&per_page=12`
+      // )
+      //   .then(response => response.json())
       .then(photos => {
         if (photos.hits.length === 0) {
           toast.error('There are no photos');
